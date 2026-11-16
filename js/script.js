@@ -61,12 +61,50 @@ viewer.addEventListener('click', function () {
 const saw = document.querySelector('#saw');
 const gear = document.querySelector('.gear-click');
 
+if (saw && gear) {
+  gear.addEventListener('click', function () {
+    saw.classList.remove('driving');
+
+    // Перезапуск анимации с самого начала
+    void saw.offsetWidth;
+
+    saw.classList.add('driving');
+  });
+
+  saw.addEventListener('animationend', function (event) {
+    if (event.target === saw) {
+      saw.classList.remove('driving');
+    }
+  });
+}
+
 gear.addEventListener('click', function () {
+  // Если анимация уже шла, перезапускаем её с начала.
   saw.classList.remove('driving');
-  void saw.offsetWidth;    // сброс анимации
+  saw.style.animation = 'none';
+  saw.style.transform = '';
+  void saw.offsetWidth;
+
+  // Выбираем траекторию один раз. Изменение масштаба/ширины окна
+  // во время движения не переключит keyframes и не запустит её заново.
+  const mobile = window.matchMedia('(max-width: 700px)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (mobile) {
+    saw.style.animation = reducedMotion
+      ? 'drive-mobile 1.8s ease-in-out 1 forwards'
+      : 'drive-mobile 3.2s ease-in-out 1 forwards';
+  } else {
+    saw.style.animation = reducedMotion
+      ? 'drive 1.8s linear 1 forwards'
+      : 'drive 3s linear 1 forwards';
+  }
+
   saw.classList.add('driving');
 });
 
+saw.addEventListener('animationend', finishSawAnimation);
+saw.addEventListener('animationcancel', finishSawAnimation);
 
 
 // Кнопка "узнать стоимость"

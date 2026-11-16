@@ -1,20 +1,33 @@
 html {
   scroll-snap-type: y proximity; 
   scroll-behavior: smooth;
+  overflow-x: clip; 
 }
+
+
 
 body {
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: 18px;
-    color: #ffffff;
-    background-image: linear-gradient(135deg,
-    hsl(0, 0%, 3%),      /* почти чёрный */
-    hsl(355, 75%, 20%),  /* бордовый */
-    hsl(0, 85%, 50%));   /* красный */
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  background-image: linear-gradient(
+  100deg,
+  #e82229 0%,    /* ярко-красный по краю */
+  #a3171d 10%,   /* мягкий уход из красного */
+  #5f111b 25%,   /* бордовый */
+  #3a0d0d 40%,   /* начало тёмной зоны */
+  #2b0a0a 50%,   /* самый тёмный — центр */
+  #3a0d0d 60%,   /* конец тёмной зоны */
+  #5f111b 75%,   /* обратно в бордовый */
+  #a3171d 90%,   /* мягкий выход в красный */
+  #e82229 100%
+  );
+  background-attachment: fixed;
 }
 
+
 * {
-  margin: auto;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -44,11 +57,10 @@ body {
 
 .logo {
   position: absolute;
-  top: 4px;
+  top: 8px;
   left: 32px;
-  width: 288px;
-  height: 192px;
-  z-index: 10;
+  height: 112px;
+  width: auto;     
 }
 
 
@@ -61,19 +73,19 @@ nav {
 }
 nav ul {
   display: flex;
-  gap: 24px;              /* расстояние между пунктами */
+  gap: 12px;              /* расстояние между пунктами */
   list-style: none;       /* убрать маркеры списка */
   justify-content: center;/* выравнивание: по центру */
   flex-wrap: wrap;        /* на узком экране пункты переносятся вниз */
 }
 nav a {
   display: inline-block;
-  padding: 10px 28px;
+  padding: 1vh 5vw;
   border: 1px solid #ff0000;
   border-radius: 14px;
   color: #ffffff;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 1rem;
   transition: background 0.3s, transform 0.2s;
 }
 nav a:hover {
@@ -102,20 +114,27 @@ nav a:hover {
   gap: 40px;
   align-items: center;
   text-align: left;
+  margin-top: 10px;
 }
 .product-text {
-  flex: 2.5;
+  flex: 3;
   text-align: justify;
   padding: 10px;
 }
+.product-text p {
+  text-indent: 16px;
+  margin-bottom: 1.5em;
+}
+
 model-viewer {
-  flex: 1;
+  flex: 2;
   width: 100%;
-  height: 320px;
+  height: 300px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.15);        /* тонкая светлая рамка */
   background: rgba(73, 72, 72, 0.25);              /* лёгкая «стеклянная» подложка */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);          /* тень */
+  min-width: 0; 
 }
 
 /* Иконки преимуществ */
@@ -140,22 +159,25 @@ model-viewer {
 
 /* Галлерея изображений */
 .gallery {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 32px 0;
 }
-
 .gallery img {
   width: 100%;
-  height: 300px;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 8px;
-  transition: transform .3s;
   cursor: pointer;
+  transition: transform .3s;
 }
 .gallery img:hover {
   transform: scale(1.05);
 }
 
 dialog {
+  margin: auto;   /* центрирование окна в экране */
   background: transparent;
   border: none;
 }
@@ -178,7 +200,6 @@ dialog::backdrop {              /* затемнение позади окна */
   background: #b71c1c;
   color: #fff;
   text-align: center;
-  padding: 14px 48px;
   transform: translateY(-100%);      /* спрятана за верхним краем */
   transition: transform 0.4s ease;
   display: flex;
@@ -202,8 +223,11 @@ dialog::backdrop {              /* затемнение позади окна */
   cursor: pointer;
 }
 .price-btn {
+  display: block;        /* кнопка — отдельным блоком */
+  margin: 24px auto;     /* с воздухом и по центру */
   padding: 12px;
   background: #b71c1c;
+  border: none;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -252,7 +276,7 @@ form button {
   padding: 12px;
   background: #b71c1c;
   color: #fff;
-  border: none;
+  border: 1px solid #b3b0b0;
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
@@ -274,6 +298,12 @@ form button:hover {
   gap: 100px;
   align-items: center;   /* текст и лента по центру по вертикали */
 }
+@media (max-width: 700px) {
+  .hero-inner {
+    text-align: center;   /* заголовок и короткий текст — по центру, как все секции */
+  }
+}
+
 .hero-text  { flex: 2; }
 
 .slider {
@@ -300,7 +330,7 @@ form button:hover {
   left: 50%;
   transform: translateX(-50%);
   color: #fff;
-  font-size: 20px;
+  font-size: 24px;
   text-decoration: none;
   animation: bounce 2s infinite;
   transition: opacity 0.4s;
@@ -375,11 +405,11 @@ form button:hover {
   position: fixed;
   bottom: -12%;
   left: 100vw;
-  width: 220px;
-  height: 220px;
-  z-index: -1;
+  width: 256px;
+  height: 256px;
+  z-index: 30; /* выше фотографий и основного содержимого */
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.72;
 }
 
 .saw.driving {
@@ -397,8 +427,8 @@ form button:hover {
 
 @keyframes drive {
   from { transform: translateX(0); }
-  to   { transform: translateX(calc(-100vw - 200px)); }
-  /* уезжаем на ширину экрана + свою ширину — пила скрывается за левым краем */
+  to   { transform: translateX(calc(-100vw - 100%)); }
+  /* 100% = ширина пилы: уезжает ровно на экран + себя, без хвостов */
 }
 
 @keyframes spin {
@@ -433,17 +463,430 @@ form button:hover {
   .product-text {
     flex: none;          /* текст на всю ширину */
     width: 100%;
-  }
-
-  /* Модель — НАД текстом (order меняет порядок flex-детей) */
-  model-viewer {
-    order: -1;
-    width: 100%;
-    height: 240px;
+    text-align: left;
   }
 
   /* Слайдер плиток — на всю ширину */
   .slider {
     width: 100%;
+  }
+}
+
+
+
+/* Дополнительная адаптация для телефонов и небольших планшетов */
+.hero-inner,
+.product-inner,
+.hero-text,
+.product-text,
+.slider {
+  min-width: 0;
+}
+
+.hero-text,
+.product-text {
+  overflow-wrap: anywhere;
+}
+
+model-viewer {
+  display: block;
+  min-width: 0;
+  min-height: 320px;
+}
+
+.gallery img {
+  display: block;
+  max-width: 100%;
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding: 48px 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 18px;
+  }
+
+  .main-header {
+    min-height: auto;
+    padding: 12px 12px 18px;
+  }
+
+  .main-header h1 {
+    font-size: clamp(1.7rem, 8vw, 2.2rem);
+  }
+
+  .main-header p {
+    font-size: 0.95rem;
+  }
+
+  .logo {
+    width: 112px;
+    max-width: 35vw;
+    margin: 0 auto 8px;
+  }
+
+  nav {
+    padding: 8px 10px;
+  }
+
+  nav ul {
+    gap: 8px;
+  }
+
+  nav a {
+    padding: 9px 12px;
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 48px 0;
+  }
+
+  .hero-inner,
+  .product-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .hero-text,
+  .product-text {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-text h2,
+  .product-text h2 {
+    text-align: center;
+  }
+
+  .hero-text p,
+  .product-text p {
+    line-height: 1.55;
+  }
+
+  .slider {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .stat {
+    min-width: 0;
+    padding: 20px 14px;
+  }
+
+  model-viewer {
+    order: -1;
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    height: 280px;
+    min-height: 280px;
+  }
+
+  .features {
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .feature {
+    max-width: 100%;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    margin: 24px 0;
+  }
+
+  .gallery img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    max-height: 420px;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.16);
+  }
+
+  .price-banner {
+    gap: 10px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .price-banner p {
+    min-width: 0;
+  }
+
+  .price-banner button {
+    padding: 7px 10px;
+    white-space: normal;
+  }
+
+  form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .scroll-hint {
+    display: none;
+  }
+
+  .saw {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 380px) {
+  nav a {
+    padding: 8px 9px;
+    font-size: 0.82rem;
+  }
+
+  .stat-num {
+    font-size: 34px;
+  }
+
+  model-viewer {
+    height: 240px;
+    min-height: 240px;
+  }
+}
+
+
+/* На компьютере текст слева, модель справа; на телефоне модель между абзацами */
+.product-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 2.5fr) minmax(280px, 1fr);
+  grid-template-areas:
+    "intro model"
+    "details model";
+  align-items: start;
+  column-gap: 40px;
+  row-gap: 0;
+  text-align: left;
+}
+
+.product-intro {
+  grid-area: intro;
+  min-width: 0;
+  text-align: justify;
+  padding: 10px;
+}
+
+.product-details {
+  grid-area: details;
+  min-width: 0;
+  text-align: justify;
+  padding: 0 10px 10px;
+}
+
+.product-intro p,
+.product-details p {
+  text-indent: 16px;
+  margin-bottom: 1.5em;
+}
+
+.product-inner model-viewer {
+  grid-area: model;
+  width: 100%;
+  min-width: 0;
+  height: 420px;
+  min-height: 320px;
+  align-self: center;
+}
+
+@media (max-width: 700px) {
+  .product-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .product-intro,
+  .product-details {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    text-align: left;
+  }
+
+  .product-intro p,
+  .product-details p {
+    text-indent: 16px;
+    margin-bottom: 1.1em;
+  }
+
+  .product-inner model-viewer {
+    order: 0;
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
+    margin: 4px 0 12px;
+  }
+
+  .product-details {
+    order: 1;
+  }
+
+  .product-intro {
+    order: -1;
+  }
+
+  /* Пила проходит вдоль правого края сверху вниз */
+  .saw {
+    top: -140px;
+    right: 8px;
+    bottom: auto;
+    left: auto;
+    width: 112px;
+    height: 112px;
+    opacity: 0.78;
+  }
+
+  .saw.driving {
+    animation: drive-mobile 3.2s ease-in-out 1 forwards;
+  }
+}
+
+@keyframes drive-mobile {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-12deg);
+  }
+  to {
+    transform: translate3d(0, calc(100dvh + 160px), 0) rotate(8deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .saw {
+    will-change: transform;
+  }
+
+  .saw.driving {
+    animation-timing-function: linear !important;
+  }
+}
+
+
+
+
+/* Градиент рисуется на корневом элементе, а не на фиксированном фоне body.
+   Цвет подложки не даст появиться белому полю даже при overscroll. */
+html {
+  min-height: 100%;
+  background-color: #2b0a0a;
+  background-image: linear-gradient(
+    120deg,
+    #e82229 0%,
+    #a3171d 10%,
+    #5f111b 25%,
+    #3a0d0d 40%,
+    #2b0a0a 50%,
+    #3a0d0d 60%,
+    #5f111b 75%,
+    #a3171d 90%,
+    #e82229 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: scroll;
+}
+
+body {
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Чуть более широкие секции на больших экранах */
+.container {
+  width: min(94%, 1400px);
+  max-width: 1400px;
+}
+
+/* Пила всегда над галереей и секциями, но не перехватывает нажатия */
+.saw {
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.gear-click {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .saw {
+    top: -130px;
+    right: 8px;
+    bottom: auto;
+    left: auto;
+    width: 112px;
+    height: 112px;
+    opacity: 0.82;
+  }
+
+  .gear-click {
+    left: 12px;
+    font-size: 64px;
+    opacity: 0.18;
+  }
+}
+
+/* Принудительно восстанавливаем движение пилы на телефонах */
+@media (max-width: 700px) {
+  .saw.driving {
+    animation: drive-mobile 3.5s linear 1 forwards !important;
+  }
+
+  .saw-spin {
+    animation: spin 0.6s linear infinite !important;
+  }
+}
+
+/* Плавное движение сверху вниз */
+@keyframes drive-mobile {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-12deg);
+  }
+
+  to {
+    transform: translate3d(0, calc(100vh + 300px), 0) rotate(8deg);
+  }
+}
+
+
+/* Увеличение шрифта на компьютерах */
+@media (min-width: 701px) {
+  body {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  nav a {
+    font-size: 1.1rem;
   }
 }
