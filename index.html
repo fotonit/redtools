@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedTools</title>
+    <meta name="description" content="RedTools - высокотехнологичные профессиональные инструменты.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/favicon_1.png" type="image/png">
+</head>
+
+
+<body>
+    <header  class="main-header">
+        <img class="logo" src="img/logo1.png" alt="Логотип бренда RedTools">
+        <h1><span style="color: red;">Red</span>Tools</h1>
+        <p>- надёжный строительный инструмент. </p>
+        
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#works">Наш продукт</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="bg-gear" style="top: 10%; right: -60px;">⚙️</div>
+    <div class="bg-gear" style="bottom: 5%; left: -80px; animation-duration: 60s;">⚙️</div>
+    <div class="bg-gear gear-click">⚙️</div>
+
+    <div class="saw" id="saw">
+        <img class="saw-spin" src="img/vector/saw-disk.png" alt="Пила">
+    </div>
+
+    <section id="about" class="hero">
+        <a class="scroll-hint" href="#works">Наш продукт ↓</a>
+        <div class="container hero-inner">
+            <div class="hero-text">
+                <h2>О нас</h2>
+                <p>RedTools  - российская квази-компания, 
+                которая специализируется на разработке и производстве высокотехнологичных профессиональных электроинструментов.<br>
+                Занимаем передовые позиции на рынке более 20 лет, имеем собственное современное производство.
+                </p>
+            </div>
+
+
+            <div class="slider">
+
+                <div class="slide">
+                    <div class="stat">
+                        <img src="img/vector/growth.png" alt="Значок роста продаж">
+                        <span class="stat-num">20</span>
+                        <span>лет на рынке</span>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="stat">
+                        <img src="img/vector/tech.png" alt="Значок предприятия">
+                        <span class="stat-num">100%</span>
+                        <span>собственное производство</span>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="stat">
+                        <img src="img/vector/gears.png" alt="Значок механизмов">
+                        <span class="stat-num">50+</span>
+                        <span>моделей инструмента</span>
+                    </div>
+                </div>
+                
+            </div>
+    </section>
+
+    <section id="works" class="section">
+        <div class="container">
+            <h2>Наш продукт</h2>
+            <div class="product-inner">
+                <div class="product-text">
+                    <p>Высокотехнологичный умный шпатель для широкого спектра задач.<br>
+                    Для точного нанесения строительных смесей (шпаклёвки, штукатурки, цементных растворов, плиточных клеёв, герметиков), 
+                    в шпатель встроены лазерный и гидроуровни, а также оптический прицел.<br>
+                    Для работы при плохом освещении предусмотрены фонарик и RGB‑подсветка.
+                    Колёсики и телескопическая ручка облегчают перемещение шпателя по поверхности. <br>
+                    В корпус встроен OLED‑экран с индикаторами заряда батареи, а также бак с водой для охлаждения.
+                    Мини‑огнетушитель и выезжающий нож станут отличными помощниками для вспомогательных задач. <br>
+                    Экшен‑камеру можно использовать для демонстрации проделанной работы в соцсетях 
+                    или для обучения нейросетей машинного зрения робо‑шпателей — нашего будущего продукта. <br>
+                    Колонка JBL создаст рабочую атмосферу, будильник напомнит о сроках работы, а подстаканник с напитком подкрепит ваши силы.
+                    В pro-версии добавлена ремонтная станция и автовыдача еды. <br>
+                    Корпус лёгий и прочный, т.к. печатается на 3D-принтере.
+                    </p>
+                </div>
+
+                <model-viewer
+                    src="objects/smart_spatula.glb"
+                    alt="3D-модель умного шпателя"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1">
+                </model-viewer>
+
+            </div>
+            
+            <div class="features">
+                <div class="feature"><img src="img/vector/3d-printer.png" alt="">Печается на 3D-принтере</div>
+                <div class="feature"><img src="img/vector/battery.png" alt="">Батарея 12 ч</div>
+                <div class="feature"><img src="img/vector/cooling.png" alt="">Водяное охлаждение</div>
+            </div>
+
+            <div class="gallery">
+                <img src="img/tool1.jpg" alt="Инструмент. Изображение 1." loading="lazy">
+                <img src="img/tool2.jpg" alt="Инструмент. Изображение 2." loading="lazy">
+                <img src="img/tool3.jpg" alt="Инструмент. Изображение 3." loading="lazy">
+            </div>
+
+            <button class="price-btn" id="price-btn">Узнать стоимость</button>
+            <div class="price-banner" id="price-banner">
+                <p>Умный шпатель RedTools — от 19 990 ₽</p>
+                <button id="price-close" aria-label="Закрыть">Спасибо, хорошо.</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contacts" class="section">
+        <div class="container">
+            <h2>Обратная связь</h2>
+            <form id="feedback-form">
+                <input type="text" name="name" placeholder="Имя" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" placeholder="Сообщение" required></textarea>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2>Контакты</h2>
+
+            <div class="social-icon-link">
+                <a href="https://www.telegram.org/"
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    aria-label="Перейти в наш Telegram">
+                    <img src="img/vector/tg.png" alt="Соцсети. Telegram" width="64" height="64">
+                </a>
+            </div>
+
+            <div class="social-icon-link">
+                <a href="https://www.whatsapp.com/"
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    aria-label="Перейти в наш WhatsApp">
+                    <img src="img/vector/wapp.png" alt="Соцсети. WhatsApp" width="64" height="64">
+                </a>
+            </div>
+
+            <div class="social-icon-link">
+                <a href="https://vk.ru"
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    aria-label="Перейти в ВКонтакте">
+                    <img src="img/vector/vk.png" alt="Соцсети. ВКонтакте" width="64" height="64">
+                </a>
+            </div>
+
+            <p>© 2026 RedTools</p>
+            <a href="tel:+79991234567">+7 999 123-45-67</a>
+            <a href="mailto:example@mail.ru">redtools@mail.ru</a>
+        </div>
+    </footer>
+
+
+    <dialog id="viewer">
+        <img id="viewer-img" src="" alt="">
+    </dialog>
+
+    <script src="js/script.js"></script>
+    <script type="module" src="js/model-viewer.min.js"></script>
+</body>
+
+
+</html>
