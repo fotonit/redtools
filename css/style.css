@@ -1,797 +1,17 @@
+/* ============================================================
+   RedTools — финальная версия
+   ============================================================ */
+
+/*   1. Корень и общие стили   */
+
 html {
-  scroll-snap-type: y proximity; 
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
-  overflow-x: clip; 
-}
-
-
-
-body {
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
-  font-size: 18px;
-  color: #ffffff;
-  background-image: linear-gradient(
-  100deg,
-  #e82229 0%,    /* ярко-красный по краю */
-  #a3171d 10%,   /* мягкий уход из красного */
-  #5f111b 25%,   /* бордовый */
-  #3a0d0d 40%,   /* начало тёмной зоны */
-  #2b0a0a 50%,   /* самый тёмный — центр */
-  #3a0d0d 60%,   /* конец тёмной зоны */
-  #5f111b 75%,   /* обратно в бордовый */
-  #a3171d 90%,   /* мягкий выход в красный */
-  #e82229 100%
-  );
-  background-attachment: fixed;
-}
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.section {
-  padding: 80px 0;
-  text-align: center;
-  scroll-snap-align: start;
-}
-
-.container {
-  max-width: 1200px;   /* контент не растянется на весь 4K-монитор */
-  margin: 0 auto;      /* центрирование по горизонтали */
-  padding: 4px 16px;     /* текст не прилипнет к краю телефона */
-  text-align: center;
-}
-
-.main-header {
-  margin: 0;
-  padding: 4px;
-  box-sizing: border-box;
-  text-align: center;
-  background: rgba(20, 0, 0, 0.85);
-  position: relative;
-  min-height: 128px;
-}
-
-.logo {
-  position: absolute;
-  top: 8px;
-  left: 32px;
-  height: 112px;
-  width: auto;     
-}
-
-
-nav {
-  position: sticky;
-  top: 0;
-  z-index: 9;                        /* поверх контента при прокрутке */
-  background: rgba(20, 0, 0, 0.85);   /* плотная шторка, текст читается */
-  padding: 8px;
-}
-nav ul {
-  display: flex;
-  gap: 12px;              /* расстояние между пунктами */
-  list-style: none;       /* убрать маркеры списка */
-  justify-content: center;/* выравнивание: по центру */
-  flex-wrap: wrap;        /* на узком экране пункты переносятся вниз */
-}
-nav a {
-  display: inline-block;
-  padding: 1vh 5vw;
-  border: 1px solid #ff0000;
-  border-radius: 14px;
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: background 0.3s, transform 0.2s;
-}
-nav a:hover {
-  background: #323232;
-  transform: translateY(-2px);   /* кнопка чуть «подпрыгивает» */
-}
-
-
-.stat {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 24px;
-  min-width: 160px;
-}
-.stat-num {
-  display: block;
-  font-size: 42px;
-  font-weight: bold;
-  color: #ff5252;
-}
-
-/* 3d-model */
-.product-inner {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  text-align: left;
-  margin-top: 10px;
-}
-.product-text {
-  flex: 3;
-  text-align: justify;
-  padding: 10px;
-}
-.product-text p {
-  text-indent: 16px;
-  margin-bottom: 1.5em;
-}
-
-model-viewer {
-  flex: 2;
-  width: 100%;
-  height: 300px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);        /* тонкая светлая рамка */
-  background: rgba(73, 72, 72, 0.25);              /* лёгкая «стеклянная» подложка */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);          /* тень */
-  min-width: 0; 
-}
-
-/* Иконки преимуществ */
-.features {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 32px;
-}
-.feature {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 24px;
-  padding: 8px 16px;
-}
-.feature img { width: 32px; height: 32px; }
-
-
-/* Галлерея изображений */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  margin: 32px 0;
-}
-.gallery img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform .3s;
-}
-.gallery img:hover {
-  transform: scale(1.05);
-}
-
-dialog {
-  margin: auto;   /* центрирование окна в экране */
-  background: transparent;
-  border: none;
-}
-dialog img {
-  max-width: 90vw;
-  max-height: 90vh;
-  border-radius: 8px;
-}
-dialog::backdrop {              /* затемнение позади окна */
-  background: rgba(0, 0, 0, 0.8);
-}
-
-/* Кнопка "узнать стоимость" */
-.price-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;                       /* над шторкой меню */
-  background: #b71c1c;
-  color: #fff;
-  text-align: center;
-  transform: translateY(-100%);      /* спрятана за верхним краем */
-  transition: transform 0.4s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 14px 16px;
-}
-.price-banner.shown {
-  transform: translateY(0);          /* выехала */
-}
-.price-banner button {
-  position: static;
-  background: rgba(0, 0, 0, 0.25);
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  padding: 6px 14px;
-  font-size: 14px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-.price-btn {
-  display: block;        /* кнопка — отдельным блоком */
-  margin: 24px auto;     /* с воздухом и по центру */
-  padding: 12px;
-  background: #b71c1c;
-  border: none;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.6); }
-  70%  { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(255, 82, 82, 0); }
-  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
-}
-
-
-
-/* Обратная связь */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 8px;
-}
-form input,
-form textarea {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: #ffffff;
-  font: inherit;
-}
-form input:focus,
-form textarea:focus {
-  outline: none;
-  border-color: #ff5252;
-  box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.3);  /* красное свечение */
-}
-form ::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-form button {
-  padding: 12px;
-  background: #b71c1c;
-  color: #fff;
-  border: 1px solid #b3b0b0;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-form button:hover {
-  background: #d32f2f;
-}
-
-
-.hero {
-  min-height: 75vh;
-  display: flex;
-  align-items: center;
-  position: relative;   /* точка привязки для scroll-hint */
-}
-.hero-inner {
-  display: flex;
-  gap: 100px;
-  align-items: center;   /* текст и лента по центру по вертикали */
-}
-@media (max-width: 700px) {
-  .hero-inner {
-    text-align: center;   /* заголовок и короткий текст — по центру, как все секции */
-  }
-}
-
-.hero-text  { flex: 2; }
-
-.slider {
-  display: flex;
-  overflow: hidden;
-  border-radius: 12px;
-  flex: 1;          /* занимает своё место в hero-inner */
-  min-width: 0;     /* важно! без этого flex-элемент не даст себя сузить */
-}
-.slide {
-  flex: 0 0 100%;
-}
-.stat img {          /* размер иконок задаём явно */
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-}
-
-
-
-.scroll-hint {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #fff;
-  font-size: 24px;
-  text-decoration: none;
-  animation: bounce 2s infinite;
-  transition: opacity 0.4s;
-}
-.scroll-hint.hidden {
-  opacity: 0;
-  pointer-events: none;   /* чтобы невидимая кнопка не ловила клики */
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translate(-50%, 0); }
-  50%      { transform: translate(-50%, 10px); }
-}
-
-
-
-/* Шестерёнки */
-.bg-gear {
-  position: fixed;        /* не уезжает при прокрутке */
-  z-index: -1;            /* за всем контентом */
-  opacity: 0.07;          /* призрак, не мешает читать */
-  font-size: 220px;
-  animation: spin 40s linear infinite;
-  cursor: pointer;
-  pointer-events: auto; 
-}
-.gear-click {
-  z-index: 5;          /* положительный — поверх контента, клики доходят */
-  opacity: 0.05;
-  top: 30%;
-  left: 20px;
-  font-size: 80px;
-  animation: spin 40s linear infinite reverse;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) { .bg-gear { animation: none; } }
-
-
-
-
-
-
-
-.social-icon-link {
-  text-decoration: none;
-  display: inline-block;
-  color: inherit;
-  padding: 8px;
-  border-radius: 50%;
-}
-.social-icon-link img {
-  display: block;
-  width: 45px;
-  height: 45px;
-  object-fit: contain;
-}
-.social-icon-link:hover {
-  background-color: rgba(0, 0, 0, 0.08);
-  transition: background-color 0.2s ease;
-}
-.social-icon-link:hover img {
-  transform: scale(1.1);
-  transition: transform 0.2s ease;
-}
-
-
-
-/* Анимация пилы */
-.saw {
-  position: fixed;
-  bottom: -12%;
-  left: 100vw;
-  width: 256px;
-  height: 256px;
-  z-index: 30; /* выше фотографий и основного содержимого */
-  pointer-events: none;
-  opacity: 0.72;
-}
-
-.saw.driving {
-  animation: drive 3s linear 1 forwards;
-}
-
-/* Вращение — на внутреннем элементе, чтобы не конфликтовало с движением */
-.saw-spin {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  animation: spin 0.6s linear infinite;   /* постоянное быстрое вращение */
-}
-
-@keyframes drive {
-  from { transform: translateX(0); }
-  to   { transform: translateX(calc(-100vw - 100%)); }
-  /* 100% = ширина пилы: уезжает ровно на экран + себя, без хвостов */
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-
-
-
-
-/* Адаптация под мобильные устройства */
-@media (max-width: 700px) {
-
-  /* Логотип: из абсолютного — в поток, меньше, по центру */
-  .logo {
-    position: static;
-    display: block;
-    width: 140px;
-    height: auto;        /* пропорции сохранятся, искажений нет */
-    margin: 0 auto;
-  }
-
-  /* Колонки складываются друг под друга */
-  .hero-inner,
-  .product-inner {
-    flex-direction: column;
-    gap: 24px;           /* 100px зазор на телефоне не нужен */
-  }
-
-  .hero-text,
-  .product-text {
-    flex: none;          /* текст на всю ширину */
-    width: 100%;
-    text-align: left;
-  }
-
-  /* Слайдер плиток — на всю ширину */
-  .slider {
-    width: 100%;
-  }
-}
-
-
-
-/* Дополнительная адаптация для телефонов и небольших планшетов */
-.hero-inner,
-.product-inner,
-.hero-text,
-.product-text,
-.slider {
-  min-width: 0;
-}
-
-.hero-text,
-.product-text {
-  overflow-wrap: anywhere;
-}
-
-model-viewer {
-  display: block;
-  min-width: 0;
-  min-height: 320px;
-}
-
-.gallery img {
-  display: block;
-  max-width: 100%;
-}
-
-@media (max-width: 700px) {
-  .section {
-    padding: 48px 0;
-  }
-
-  .container {
-    width: 100%;
-    max-width: 100%;
-    padding: 0 18px;
-  }
-
-  .main-header {
-    min-height: auto;
-    padding: 12px 12px 18px;
-  }
-
-  .main-header h1 {
-    font-size: clamp(1.7rem, 8vw, 2.2rem);
-  }
-
-  .main-header p {
-    font-size: 0.95rem;
-  }
-
-  .logo {
-    width: 112px;
-    max-width: 35vw;
-    margin: 0 auto 8px;
-  }
-
-  nav {
-    padding: 8px 10px;
-  }
-
-  nav ul {
-    gap: 8px;
-  }
-
-  nav a {
-    padding: 9px 12px;
-    font-size: 0.9rem;
-  }
-
-  .hero {
-    min-height: auto;
-    padding: 48px 0;
-  }
-
-  .hero-inner,
-  .product-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 24px;
-    width: 100%;
-  }
-
-  .hero-text,
-  .product-text {
-    flex: none;
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    text-align: left;
-    overflow-wrap: anywhere;
-  }
-
-  .hero-text h2,
-  .product-text h2 {
-    text-align: center;
-  }
-
-  .hero-text p,
-  .product-text p {
-    line-height: 1.55;
-  }
-
-  .slider {
-    flex: none;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .stat {
-    min-width: 0;
-    padding: 20px 14px;
-  }
-
-  model-viewer {
-    order: -1;
-    flex: none;
-    width: 100%;
-    max-width: 100%;
-    height: 280px;
-    min-height: 280px;
-  }
-
-  .features {
-    gap: 10px;
-    margin-top: 24px;
-  }
-
-  .feature {
-    max-width: 100%;
-    padding: 8px 12px;
-    font-size: 0.9rem;
-  }
-
-  .gallery {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
-    margin: 24px 0;
-  }
-
-  .gallery img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: auto;
-    max-height: 420px;
-    object-fit: contain;
-    background: rgba(0, 0, 0, 0.16);
-  }
-
-  .price-banner {
-    gap: 10px;
-    padding: 10px 12px;
-    font-size: 0.9rem;
-  }
-
-  .price-banner p {
-    min-width: 0;
-  }
-
-  .price-banner button {
-    padding: 7px 10px;
-    white-space: normal;
-  }
-
-  form {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .scroll-hint {
-    display: none;
-  }
-
-  .saw {
-    width: 120px;
-    height: 120px;
-  }
-}
-
-@media (max-width: 380px) {
-  nav a {
-    padding: 8px 9px;
-    font-size: 0.82rem;
-  }
-
-  .stat-num {
-    font-size: 34px;
-  }
-
-  model-viewer {
-    height: 240px;
-    min-height: 240px;
-  }
-}
-
-
-/* На компьютере текст слева, модель справа; на телефоне модель между абзацами */
-.product-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 2.5fr) minmax(280px, 1fr);
-  grid-template-areas:
-    "intro model"
-    "details model";
-  align-items: start;
-  column-gap: 40px;
-  row-gap: 0;
-  text-align: left;
-}
-
-.product-intro {
-  grid-area: intro;
-  min-width: 0;
-  text-align: justify;
-  padding: 10px;
-}
-
-.product-details {
-  grid-area: details;
-  min-width: 0;
-  text-align: justify;
-  padding: 0 10px 10px;
-}
-
-.product-intro p,
-.product-details p {
-  text-indent: 16px;
-  margin-bottom: 1.5em;
-}
-
-.product-inner model-viewer {
-  grid-area: model;
-  width: 100%;
-  min-width: 0;
-  height: 420px;
-  min-height: 320px;
-  align-self: center;
-}
-
-@media (max-width: 700px) {
-  .product-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .product-intro,
-  .product-details {
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    text-align: left;
-  }
-
-  .product-intro p,
-  .product-details p {
-    text-indent: 16px;
-    margin-bottom: 1.1em;
-  }
-
-  .product-inner model-viewer {
-    order: 0;
-    width: 100%;
-    height: 280px;
-    min-height: 280px;
-    margin: 4px 0 12px;
-  }
-
-  .product-details {
-    order: 1;
-  }
-
-  .product-intro {
-    order: -1;
-  }
-
-  /* Пила проходит вдоль правого края сверху вниз */
-  .saw {
-    top: -140px;
-    right: 8px;
-    bottom: auto;
-    left: auto;
-    width: 112px;
-    height: 112px;
-    opacity: 0.78;
-  }
-
-  .saw.driving {
-    animation: drive-mobile 3.2s ease-in-out 1 forwards;
-  }
-}
-
-@keyframes drive-mobile {
-  from {
-    transform: translate3d(0, 0, 0) rotate(-12deg);
-  }
-  to {
-    transform: translate3d(0, calc(100dvh + 160px), 0) rotate(8deg);
-  }
-}
-
-@media (max-width: 700px) {
-  .saw {
-    will-change: transform;
-  }
-
-  .saw.driving {
-    animation-timing-function: linear !important;
-  }
-}
-
-
-
-
-/* Градиент рисуется на корневом элементе, а не на фиксированном фоне body.
-   Цвет подложки не даст появиться белому полю даже при overscroll. */
-html {
+  overflow-x: clip;
   min-height: 100%;
+
+  /* Градиент живёт на html: не зависит от длины страницы,
+     тёмная подложка не даёт белого поля при overscroll */
   background-color: #2b0a0a;
   background-image: linear-gradient(
     120deg,
@@ -807,86 +27,629 @@ html {
   );
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-attachment: scroll;
 }
 
 body {
-  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #ffffff;
   background: transparent;
+  min-height: 100vh;
+  overflow-x: clip;
 }
 
-/* Чуть более широкие секции на больших экранах */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*   2. Каркас   */
+
+.section {
+  padding: 80px 0;
+  text-align: center;
+  scroll-snap-align: start;
+}
+
 .container {
   width: min(94%, 1400px);
-  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4px 16px;
+  text-align: center;
 }
 
-/* Пила всегда над галереей и секциями, но не перехватывает нажатия */
-.saw {
-  z-index: 9999;
+/*   3. Шапка   */
+
+.main-header {
+  padding: 4px;
+  text-align: center;
+  background: rgba(20, 0, 0, 0.85);
+  position: relative;
+  min-height: 128px;
+}
+
+.logo {
+  position: absolute;
+  top: 8px;
+  left: 32px;
+  height: 112px;
+  width: auto;
+}
+
+/*   4. Меню   */
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background: rgba(20, 0, 0, 0.85);
+  padding: 8px;
+}
+
+nav ul {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav a {
+  display: inline-block;
+  padding: 9px 20px;
+  border: 1px solid #ff0000;
+  border-radius: 14px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+nav a\:hover {
+  background: #323232;
+  transform: translateY(-2px);
+}
+
+/*   5. Плитки-статистика   */
+
+.stat {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 160px;
+}
+
+.stat-num {
+  display: block;
+  font-size: 42px;
+  font-weight: bold;
+  color: #ff5252;
+}
+
+.stat img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+/*   6. Первый экран   */
+
+.hero {
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  position: relative;   /* точка привязки scroll-hint */
+}
+
+.hero-inner {
+  display: flex;
+  gap: 100px;
+  align-items: center;
+}
+
+.hero-text { flex: 2; }
+
+.slider {
+  display: flex;
+  overflow: hidden;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.slide { flex: 0 0 100%; }
+
+/*   7. Продукт: текст + 3D-модель   */
+
+.product-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 2.5fr) minmax(280px, 1fr);
+  grid-template-areas:
+    "intro model"
+    "details model";
+  align-items: start;
+  column-gap: 40px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.product-intro {
+  grid-area: intro;
+  min-width: 0;
+  padding: 10px;
+  text-align: justify;
+}
+
+.product-details {
+  grid-area: details;
+  min-width: 0;
+  padding: 0 10px 10px;
+  text-align: justify;
+}
+
+.product-intro p,
+.product-details p {
+  text-indent: 16px;
+  margin-bottom: 1.5em;
+}
+
+model-viewer {
+  display: block;
+  width: 100%;
+  min-width: 0;          /* можно сжимать ниже внутренней ширины canvas */
+  height: 420px;
+  min-height: 320px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(73, 72, 72, 0.25);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.product-inner model-viewer {
+  grid-area: model;
+  align-self: center;
+}
+
+/*   8. Иконки преимуществ   */
+
+.features {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 8px 16px;
+}
+
+.feature img {
+  width: 32px;
+  height: 32px;
+}
+
+/*   9. Галерея и просмотрщик   */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 32px 0;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.gallery img\:hover {
+  transform: scale(1.05);
+}
+
+dialog {
+  margin: auto;   /* центрирование окна (его сносит глобальный ресет) */
+  background: transparent;
+  border: none;
+}
+
+dialog img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/*   10. Кнопка и баннер цены   */
+
+.price-btn {
+  display: block;
+  margin: 24px auto;
+  padding: 12px;
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.6); }
+  70%  { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(255, 82, 82, 0); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
+}
+
+.price-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #b71c1c;
+  color: #fff;
+  text-align: center;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+}
+
+.price-banner.shown {
+  transform: translateY(0);
+}
+
+.price-banner button {
+  background: rgba(0, 0, 0, 0.25);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 6px 14px;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/*   11. Форма обратной связи   */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+form input,
+form textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font: inherit;
+}
+
+form input\:focus,
+form textarea\:focus {
+  outline: none;
+  border-color: #ff5252;
+  box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.3);
+}
+
+form ::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+form button {
+  padding: 12px;
+  background: #b71c1c;
+  color: #fff;
+  border: 1px solid #b3b0b0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button\:hover {
+  background: #d32f2f;
+}
+
+/*   12. Подсказка прокрутки   */
+
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+  animation: bounce 2s infinite;
+  transition: opacity 0.4s;
+}
+
+.scroll-hint.hidden {
+  opacity: 0;
   pointer-events: none;
-  will-change: transform;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 10px); }
+}
+
+/*   13. Фоновые шестерни   */
+
+.bg-gear {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.07;
+  font-size: 220px;
+  animation: spin 40s linear infinite;
+  pointer-events: none;
 }
 
 .gear-click {
+  z-index: 5;
+  opacity: 0.05;
+  top: 30%;
+  left: 20px;
+  font-size: 80px;
+  animation: spin 40s linear infinite reverse;
+  pointer-events: auto;
   cursor: pointer;
   touch-action: manipulation;
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/*   14. Соцсети в футере   */
+
+.social-icon-link {
+  display: inline-block;
+  padding: 8px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.social-icon-link img {
+  display: block;
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.social-icon-link\:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s ease;
+}
+
+.social-icon-link\:hover img {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/*   15. Пила (пасхалка)   */
+
+
+/* 15. Пила (пасхалка) */
+
+.saw {
+  position: fixed;
+  bottom: -80px;
+  right: -256px;
+  width: 256px;
+  height: 256px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.82;
+  will-change: transform;
+}
+
+/* Изображение пилы */
+.saw-spin {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: none;
+}
+
+
+/* Fallback; точную анимацию JS задаёт инлайн-стилем */
+.saw.driving {
+  animation: drive 3s linear 1 forwards;
+}
+
+
+/* Справа налево (десктоп) */
+@keyframes drive {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100vw - 100%)); }
+}
+/* Сверху вниз (телефон). Два объявления to: браузеры без
+   поддержки dvh возьмут первое, современные — второе. */
+@keyframes drive-mobile {
+  from { transform: translate3d(0, 0, 0) rotate(-12deg); }
+  to   { transform: translate3d(0, calc(100vh + 160px), 0) rotate(8deg); }
+}
+
+/*   16. Адаптация: телефоны   */
+
 @media (max-width: 700px) {
+  .section { padding: 48px 0; }
+
   .container {
+    width: 100%;
+    padding: 0 18px;
+  }
+
+  .main-header {
+    min-height: auto;
+    padding: 12px 12px 18px;
+  }
+
+  .main-header h1 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .main-header p { font-size: 0.95rem; }
+
+  .logo {
+    position: static;
+    display: block;
+    width: 112px;
+    max-width: 35vw;
+    height: auto;
+    margin: 0 auto 8px;
+  }
+
+  nav { padding: 8px 10px; }
+  nav ul { gap: 8px; }
+  nav a { padding: 9px 12px; font-size: 0.9rem; }
+
+  .hero {
+    min-height: auto;
+    padding: 48px 0;
+  }
+
+  .hero-inner,
+  .product-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero-inner { gap: 24px; text-align: center; }
+  .product-inner { gap: 12px; }
+
+  .hero-text,
+  .product-intro,
+  .product-details {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-text h2 { text-align: center; }
+
+  .hero-text p,
+  .product-intro p,
+  .product-details p {
+    line-height: 1.55;
+    margin-bottom: 1.1em;
+  }
+
+  .slider {
+    flex: none;
     width: 100%;
     max-width: 100%;
   }
 
+  .stat {
+    min-width: 0;
+    padding: 20px 14px;
+  }
+
+  .product-inner model-viewer {
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
+    margin: 4px 0 12px;
+  }
+
+  .features { gap: 10px; margin-top: 24px; }
+  .feature { max-width: 100%; padding: 8px 12px; font-size: 0.9rem; }
+
+  .gallery {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    margin: 24px 0;
+  }
+
+  .gallery img {
+    height: auto;
+    aspect-ratio: auto;
+    max-height: 420px;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.16);
+  }
+
+  .price-banner { gap: 10px; padding: 10px 12px; font-size: 0.9rem; }
+  .price-banner p { min-width: 0; }
+  .price-banner button { padding: 7px 10px; white-space: normal; }
+
+  form { width: 100%; max-width: 100%; }
+
+  .scroll-hint { display: none; }
+
   .saw {
-    top: -130px;
+    top: -160px;
     right: 8px;
     bottom: auto;
     left: auto;
-    width: 112px;
-    height: 112px;
+    width: 160px;
+    height: 160px;
     opacity: 0.82;
   }
 
-  .gear-click {
-    left: 12px;
-    font-size: 64px;
-    opacity: 0.18;
-  }
-}
-
-/* Принудительно восстанавливаем движение пилы на телефонах */
-@media (max-width: 700px) {
-  .saw.driving {
-    animation: drive-mobile 3.5s linear 1 forwards !important;
-  }
-
   .saw-spin {
-    animation: spin 0.6s linear infinite !important;
+    animation: none;
   }
+
+  .gear-click { display: none; }   /* на телефоне пила запускается через форму */
 }
 
-/* Плавное движение сверху вниз */
-@keyframes drive-mobile {
-  from {
-    transform: translate3d(0, 0, 0) rotate(-12deg);
-  }
-
-  to {
-    transform: translate3d(0, calc(100vh + 300px), 0) rotate(8deg);
-  }
+@media (max-width: 380px) {
+  nav a { padding: 8px 9px; font-size: 0.82rem; }
+  .stat-num { font-size: 34px; }
+  .product-inner model-viewer { height: 240px; min-height: 240px; }
 }
 
+/*   17. Крупный шрифт на десктопе   */
 
-/* Увеличение шрифта на компьютерах */
 @media (min-width: 701px) {
-  body {
-    font-size: 20px;
-    line-height: 1.6;
-  }
+  body { font-size: 20px; }
+  nav a { font-size: 1.1rem; }
+}
 
-  nav a {
-    font-size: 1.1rem;
+/*   18. Уважение к настройкам анимации   */
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-gear,
+  .gear-click,
+  .price-btn,
+  .scroll-hint,
+  .saw-spin {
+    animation: none;
   }
 }
